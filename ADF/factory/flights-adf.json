@@ -1,0 +1,9 @@
+{
+	"name": "flights-adf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f06f26da-a095-495a-9021-e46c06c94d8f",
+		"tenantId": "8593cf49-790f-4fbf-9f30-17a348669228"
+	}
+}

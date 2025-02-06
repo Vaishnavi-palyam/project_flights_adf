@@ -1,0 +1,24 @@
+{
+	"name": "ls_flights_source_sql_db",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "flights-source-server.database.windows.net",
+			"database": "flights_source_db",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "adm",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_flights_kv",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "source-sql-db-password"
+			}
+		}
+	}
+}

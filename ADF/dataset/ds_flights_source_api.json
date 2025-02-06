@@ -1,0 +1,19 @@
+{
+	"name": "ds_flights_source_api",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_flights_https_source_api",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "/api/fetch_airlines_data?code=iNsTLQtzUgiTQYfuaNQ3S3LKsO-PnTn6NKsD88TTyYWtAzFu7rTQBg%3D%3D"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

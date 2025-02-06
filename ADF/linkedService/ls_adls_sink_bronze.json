@@ -1,0 +1,22 @@
+{
+	"name": "ls_adls_sink_bronze",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://flightsrawdl.dfs.core.windows.net/",
+			"tenant": "8593cf49-790f-4fbf-9f30-17a348669228",
+			"servicePrincipalId": "abf77bdf-bf31-4973-9f89-fe8ae4c45eff",
+			"servicePrincipalCredentialType": "ServicePrincipalKey",
+			"servicePrincipalCredential": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_flights_kv",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "spn-secret"
+			}
+		}
+	}
+}

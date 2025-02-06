@@ -1,0 +1,45 @@
+{
+	"name": "ds_flights_bronze_sql_db",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_sink_bronze",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"container": {
+				"type": "string"
+			},
+			"directory": {
+				"type": "string"
+			},
+			"filename": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "ds_flights_sink_adls"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().directory",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().container",
+					"type": "Expression"
+				}
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

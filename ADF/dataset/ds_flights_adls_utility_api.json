@@ -1,0 +1,33 @@
+{
+	"name": "ds_flights_adls_utility_api",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_sink_bronze",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ds_flights_sink_adls_utility"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Table_source_API.json",
+				"fileSystem": "utility"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"offsets": {
+					"type": "array",
+					"items": {
+						"type": "integer"
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

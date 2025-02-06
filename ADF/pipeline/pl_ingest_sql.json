@@ -1,0 +1,135 @@
+{
+	"name": "pl_ingest_sql",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup_sql_source",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_flights_sink_sql_utility_lookup",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach table in the sql source",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup_sql_source",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup_sql_source').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy sql source into adls bronze",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "ParquetSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "ParquetWriteSettings"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_flights_source_sql_db",
+									"type": "DatasetReference",
+									"parameters": {
+										"tablename": {
+											"value": "@item().tablename_source",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_flights_bronze_sql_db",
+									"type": "DatasetReference",
+									"parameters": {
+										"container": {
+											"value": "@item().container_name_sink",
+											"type": "Expression"
+										},
+										"directory": {
+											"value": "@concat(item().tablename_source,'/PartDate=',formatDateTime(utcnow(),'yyyy-MM-dd'))",
+											"type": "Expression"
+										},
+										"filename": {
+											"value": "@item().filename_sink",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"folder": {
+			"name": "ingestion"
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-02-06T10:58:38Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

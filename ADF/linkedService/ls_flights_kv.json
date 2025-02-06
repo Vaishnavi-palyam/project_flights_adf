@@ -1,0 +1,12 @@
+{
+	"name": "ls_flights_kv",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "This key vault is used to keep secrets related to this project",
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://flights-kv.vault.azure.net/"
+		}
+	}
+}

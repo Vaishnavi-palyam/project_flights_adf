@@ -1,0 +1,13 @@
+{
+	"name": "ls_flights_source_api",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://api.aviationstack.com/v1/airlines",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
